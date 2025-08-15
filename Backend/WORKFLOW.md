@@ -15,6 +15,7 @@ This document outlines the step-by-step workflow followed during the development
   - `models/` — for Mongoose models
   - `routes/` — for API route definitions
   - `services/` — for business logic/services
+  - `middlewares/` — for Express middleware (e.g., authentication)
 - Added main files: `app.js`, `server.js`, `constants.js`, `.env`, and `package.json`.
 
 ## 3. Environment Configuration
@@ -24,6 +25,7 @@ This document outlines the step-by-step workflow followed during the development
 ## 4. Database Setup
 - Set up MongoDB connection in `db/db.js` using Mongoose.
 - Defined the user schema and model in `models/user.model.js`.
+- Added a blacklist token model in `models/blacklistToken.model.js` for handling token invalidation (e.g., logout, security).
 
 ## 5. User Module Implementation
 - Created user-related business logic in `services/user.service.js`.
@@ -32,6 +34,7 @@ This document outlines the step-by-step workflow followed during the development
 - Registration endpoint (`/user/register`) now expects `firstname`, `lastname`, `email`, and `password` in the request body, and constructs the `fullname` object for the user model.
 - Login endpoint (`/user/login`) now includes improved error handling, consistent response structure, and removes the password from the user object before sending it in the response.
 - Both endpoints now use try-catch for error handling and return clear success/error messages and status codes.
+- Added authentication middleware in `middlewares/auth.middleware.js` for protecting routes and handling JWT verification.
 
 ## 6. Application Setup
 - Configured Express app in `app.js` (middleware, routes, error handling).
@@ -49,6 +52,10 @@ This document outlines the step-by-step workflow followed during the development
 ## 9. Endpoint Documentation
 - Added `USER_REGISTER_ENDPOINT.md` to document the `/user/register` endpoint, including required fields, example requests/responses, and error codes.
 
+## 10. Additional Features
+- Added `models/blacklistToken.model.js` for token blacklisting (logout/security).
+- Added `middlewares/auth.middleware.js` for authentication and route protection.
+
 ---
 
-This workflow provides a clear overview of the backend setup, feature updates, and development process for the UBER_Clone project.
+This workflow provides a clear overview of the backend setup, feature updates, and development process for the UBER_Clone project. All new features and improvements are documented for easy reference.

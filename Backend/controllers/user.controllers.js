@@ -1,9 +1,11 @@
+import BlacklistToken from "../models/blacklistToken.model.js";
 import userModel from "../models/user.model.js";
 import userService from "../services/user.service.js";
 import { validationResult } from "express-validator";
 
+
 // ✅ Register User
-export const registerUser = async (req, res, next) => {
+export const registerUser = async (req, res) => {
     try {
         // Check validation errors from express-validator
         const errors = validationResult(req);
@@ -56,7 +58,7 @@ export const registerUser = async (req, res, next) => {
 };
 
 // ✅ Login User
-export const loginUser = async (req, res, next) => {
+export const loginUser = async (req, res) => {
     try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -81,6 +83,8 @@ export const loginUser = async (req, res, next) => {
         // Generate token
         const token = user.generateAuthToken();
 
+        res.cookie('token',token);
+
         // Remove password from user object
         const userObj = user.toObject();
         delete userObj.password;
@@ -96,3 +100,30 @@ export const loginUser = async (req, res, next) => {
         res.status(500).json({ success: false, message: error.message || "Login failed" });
     }
 };
+
+//
+export const getUserProfile =async(req,res)=>{
+    res.status(200).json(req.user);
+};
+
+export const logoutUser = async (req, res) => {
+    try {
+        // Get token from cookie or Authorization header
+        const token = req.cookies.token ||
+            (req.headers.authorization && req.headers.authorization.split(' ')[1]);
+
+        if (!token) {
+            return res.status(400).json({ message: 'No token provided' });
+        }
+
+        // Blacklist the token
+        await BlacklistToken.create({ token });
+
+        // Clear the cookie after reading it
+        res.clearCookie('token');
+        res.status(200).json({ message: 'Logged out' });
+    } catch (error) {
+        console.error("Logout error:", error);
+        res.status(500).json({ message: error.message || 'Logout failed' });
+    }
+}
