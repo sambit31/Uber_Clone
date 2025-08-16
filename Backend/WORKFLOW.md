@@ -27,14 +27,15 @@ This document outlines the step-by-step workflow followed during the development
 - Defined the user schema and model in `models/user.model.js`.
 - Added a blacklist token model in `models/blacklistToken.model.js` for handling token invalidation (e.g., logout, security).
 
-## 5. User Module Implementation
-- Created user-related business logic in `services/user.service.js`.
-- Implemented user controller functions in `controllers/user.controllers.js`.
-- Defined user routes in `routes/user.routes.js` and connected them to the controller.
-- Registration endpoint (`/user/register`) now expects `firstname`, `lastname`, `email`, and `password` in the request body, and constructs the `fullname` object for the user model.
-- Login endpoint (`/user/login`) now includes improved error handling, consistent response structure, and removes the password from the user object before sending it in the response.
-- Both endpoints now use try-catch for error handling and return clear success/error messages and status codes.
-- Added authentication middleware in `middlewares/auth.middleware.js` for protecting routes and handling JWT verification.
+## 5. User & Captain Module Implementation
+- Created user-related business logic in `services/user.service.js` and captain-related logic in `services/captain.service.js`.
+- Implemented user controller functions in `controllers/user.controllers.js` and captain controller functions in `controllers/captain.controllers.js`.
+- Defined user routes in `routes/user.routes.js` and captain routes in `routes/captain.routes.js`, connecting them to their respective controllers.
+- User registration endpoint (`/user/register`) expects `firstname`, `lastname`, `email`, and `password` in the request body, and constructs the `fullname` object for the user model.
+- Captain registration endpoint (`/captain/register`) expects `fullname.firstname`, `fullname.lastname`, `email`, `password`, and nested `vehicle` fields in the request body.
+- Both user and captain login endpoints include improved error handling, consistent response structure, and remove the password from the user/captain object before sending it in the response.
+- All endpoints now use try-catch for error handling and return clear success/error messages and status codes.
+- Added authentication middleware in `middlewares/auth.middleware.js` for protecting routes and handling JWT verification for both user and captain.
 
 ## 6. Application Setup
 - Configured Express app in `app.js` (middleware, routes, error handling).
@@ -51,6 +52,7 @@ This document outlines the step-by-step workflow followed during the development
 
 ## 9. Endpoint Documentation
 - Added `USER_REGISTER_ENDPOINT.md` to document the `/user/register` endpoint, including required fields, example requests/responses, and error codes.
+- Added `CAPTAIN_REGISTER_ENDPOINT.md` to document the `/captain/register` endpoint, including required fields, example requests/responses, and error codes.
 
 ## 10. Additional Features
 - Added `models/blacklistToken.model.js` for token blacklisting (logout/security).

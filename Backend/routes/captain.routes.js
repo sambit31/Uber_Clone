@@ -1,11 +1,11 @@
 import express from "express";
 import { body } from "express-validator";
-import { registerCaptain } from "../controllers/captain.controllers.js";
+import { registerCaptain, getCaptainProfile, logoutCaptain, loginCaptain } from "../controllers/captain.controllers.js";
+import {authCaptain} from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
-router.post(
-  "/register",
+router.post("/register",
   [
     body("fullname.firstname")
       .trim()
@@ -25,8 +25,16 @@ router.post(
     body("vehicle.plate").trim().notEmpty().withMessage("Vehicle plate is required"),
     body("vehicle.capacity").isNumeric().withMessage("Vehicle capacity must be a number"),
     body("vehicle.vehicleType").isIn(["car", "motorcycle", "auto"]).withMessage("Invalid vehicle type")
-  ],
-  registerCaptain
-);
+  ], registerCaptain);
+
+router.post("/login",[
+    
+    body("email").isEmail().withMessage("Invalid email"),
+    body("password").notEmpty().withMessage("Password is required")
+
+], loginCaptain);
+
+router.get("/profile", authCaptain, getCaptainProfile);
+router.get("/logout", authCaptain, logoutCaptain);
 
 export default router;

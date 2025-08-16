@@ -2,7 +2,7 @@ import express from "express";
 const router = express.Router();
 import { body } from "express-validator";
 import {getUserProfile,loginUser,logoutUser,registerUser} from "../controllers/user.controllers.js";
-import authUser from "../middlewares/auth.middleware.js";
+import  { authUser } from "../middlewares/auth.middleware.js";
 
 router.post('/register', [
     body('email').isEmail().withMessage('Invalid Email'),
