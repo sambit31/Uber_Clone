@@ -5,6 +5,7 @@ import cors from "cors";
 import connectDb from "./db/db.js";
 import cookieParser from "cookie-parser";
 import userRoutes from "./routes/user.routes.js";
+import captainRoutes from "./routes/captain.routes.js";
 
 connectDb();
  
@@ -19,6 +20,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/users', userRoutes);
+app.use('/captains', captainRoutes);
 
 // Global error handler
 app.use((err, req, res, next) => {
