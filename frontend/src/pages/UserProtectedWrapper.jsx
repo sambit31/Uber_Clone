@@ -1,6 +1,5 @@
-import { useNavigate } from 'react-router-dom'; // ✅ import navigate
-import { useEffect } from 'react';
-
+import { useNavigate } from 'react-router-dom'; 
+import { useEffect } from 'react';// ✅ import navigate
 const UserProtectedWrapper = ({ children }) => {
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
